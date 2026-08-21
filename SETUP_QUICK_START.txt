@@ -1,0 +1,82 @@
+================================================================================
+                    QUICK SETUP - 3 SIMPLE STEPS
+================================================================================
+
+PROBLEM:
+  - Wallet table missing (Error: "Could not find the table 'public.wallets'")
+  - Image uploads returning 403 Forbidden
+  - Checkout wallet not loading
+
+SOLUTION:
+  Complete these 3 steps in 5 minutes
+
+================================================================================
+STEP 1: CREATE WALLET TABLES
+================================================================================
+
+Go to: Supabase Dashboard → SQL Editor → New Query
+
+Then:
+1. Open the file: WALLET_SCHEMA.sql (in your project root)
+2. Copy ALL the SQL from that file
+3. Paste it into the Supabase SQL Editor
+4. Click the RUN button
+5. Wait for "Success"
+
+Expected: Green checkmark, no errors
+
+================================================================================
+STEP 2: CREATE STORAGE BUCKET  
+================================================================================
+
+Go to: Supabase Dashboard → Storage
+
+Then:
+1. Click "Create a new bucket"
+2. Name: products (exactly this)
+3. Toggle Public: ON (turn it green)
+4. Click "Create"
+
+Expected: See "products" bucket in your storage list
+
+================================================================================
+STEP 3: TEST IT
+================================================================================
+
+1. Open your app in browser
+2. Go to: /admin/products/new
+3. Try uploading an image from your computer
+4. Go to: /checkout
+5. Verify wallet shows: $10,000.00
+
+Expected: Everything works! ✅
+
+================================================================================
+IF SOMETHING FAILS
+================================================================================
+
+See: SETUP_INSTRUCTIONS.md
+- Has detailed troubleshooting
+- Common problems and fixes
+- SQL commands to check status
+
+================================================================================
+WHAT GETS CREATED
+================================================================================
+
+WALLET_SCHEMA.sql creates:
+  ✓ wallets table (stores money)
+  ✓ wallet_transactions table (tracks all activity)
+  ✓ Database functions for payments
+  ✓ Database functions for refunds
+  ✓ Security rules (RLS)
+
+Storage bucket creates:
+  ✓ Folder for product images
+  ✓ Public access for images
+  ✓ Fast CDN for serving images
+
+================================================================================
+TIME TO COMPLETE: ~5 MINUTES
+================================================================================
+

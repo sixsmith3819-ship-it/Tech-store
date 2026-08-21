@@ -1,0 +1,262 @@
+================================================================================
+  📊 QUICK DATA POPULATION SETUP
+================================================================================
+
+GOAL: Populate system with 60+ products and sample data
+
+TIME REQUIRED: 5 minutes
+
+STEPS:
+
+1. Open Supabase Dashboard
+   URL: https://app.supabase.com
+   
+2. Click "SQL Editor" (left sidebar)
+
+3. Click "New Query"
+
+4. Copy ALL content from: POPULATE_DATA.sql
+
+5. Click "Run"
+
+6. Wait for: "Query executed successfully" ✅
+
+================================================================================
+
+WHAT YOU GET:
+
+✅ 8 Product Categories
+✅ 60+ Products with:
+   - Realistic names (Dell, Cisco, HPE, etc.)
+   - Realistic prices ($79.99 - $24,999.99)
+   - Stock quantities (3-100 units)
+   - Product descriptions
+
+✅ 5 Demo User Accounts:
+   - customer@example.com
+   - admin@example.com
+   - manager@example.com
+   - tech@example.com
+   - support@example.com
+
+✅ 6 Sample Orders (different statuses)
+
+✅ 6 Sample Service Requests (different types)
+
+✅ 6 Sample Messages (conversations)
+
+================================================================================
+
+TEST IT IMMEDIATELY:
+
+Terminal:  npm run dev
+Browser:   http://localhost:3000
+Result:    Click "Products" → See 60+ products! ✅
+
+================================================================================
+
+BROWSE DATA:
+
+Products:
+   - 60+ items
+   - Real company names (Dell, Cisco, Juniper, etc.)
+   - Realistic prices
+   - All categories populated
+
+Orders:
+   - 6 sample orders
+   - Different statuses
+   - Real addresses
+   - Various amounts
+
+Services:
+   - 6 service requests
+   - Different service types
+   - Different statuses
+
+Messages:
+   - 6 conversations
+   - Different message types
+   - Read/unread status
+
+================================================================================
+
+ADMIN TESTING:
+
+1. Try to login as: admin@example.com
+   (Note: Need to sign up first to create auth user)
+
+2. Go to: /admin/dashboard
+
+3. See:
+   ✅ Statistics (6 orders, 6 services, 5 customers)
+   ✅ Orders management
+   ✅ Services management
+   ✅ Customers list
+   ✅ Messages
+
+================================================================================
+
+CUSTOMER TESTING:
+
+1. Sign up as new user
+
+2. Browse products
+   - 60+ items available
+   - All categories shown
+   - Prices displayed
+
+3. Add to cart
+   - Add multiple items
+   - Cart persists
+
+4. Create order
+   - Checkout works
+   - Order created
+   - See in dashboard
+
+================================================================================
+
+SAMPLE DATA BY CATEGORY:
+
+Servers & Storage (5 products)
+   - Dell PowerEdge R750
+   - HPE ProLiant DL380 Gen10
+   - NetApp Storage Array
+   - Backup Appliance
+   - UPS System
+
+Networking Equipment (5 products)
+   - Cisco Catalyst 9300 Switch
+   - Juniper Core Switch
+   - Cisco Router
+   - Palo Alto Firewall
+   - F5 Load Balancer
+
+Security Systems (6 products)
+   - 4K Hikvision Camera
+   - Dome Camera
+   - NVR 16-channel
+   - DVR
+   - Access Control
+   - Video Wall
+
+Connectivity (5 products)
+   - Starlink Pro Kit
+   - Starlink Business
+   - Modem
+   - WiFi Gateway
+   - Range Extender
+
+Workstations (4 products)
+   - Dell Precision 7920
+   - HP Z9 G5
+   - Lenovo ThinkStation
+   - ASUS ExpertCenter
+
+Peripherals (6 products)
+   - Dell 4K Monitor
+   - LG Gaming Monitor
+   - Logitech Keyboard
+   - Logitech Mouse
+   - Sennheiser Headset
+   - Docking Station
+
+Network Cabinets (5 products)
+   - 42U Rack
+   - Wall-Mount 6U
+   - 48U Cabinet
+   - Patch Panel
+   - Monitored PDU
+
+WiFi & Wireless (5 products)
+   - Cisco WiFi 6E
+   - Aruba AP22
+   - TP-Link EAP670
+   - Wireless Controller
+   - Range Extender
+
+Plus many more! (60+ total)
+
+================================================================================
+
+VERIFY DATA WAS ADDED:
+
+In browser:
+   1. Go to: http://localhost:3000/products
+   2. Should see: 60+ products displayed
+   3. Check: Prices, categories, stock levels
+
+In SQL Editor (optional):
+   SELECT COUNT(*) FROM products;     -- Should show: 60+
+   SELECT COUNT(*) FROM orders;       -- Should show: 6
+   SELECT COUNT(*) FROM services_requests;  -- Should show: 6
+
+================================================================================
+
+TROUBLESHOOTING:
+
+Q: Products not showing?
+A: 1. Refresh browser
+   2. Clear cache (Ctrl+Shift+Delete)
+   3. Check SQL ran successfully
+
+Q: SQL script failed?
+A: 1. Make sure RLS_FIX script ran first
+   2. Copy entire script carefully
+   3. Check for database connection issues
+
+Q: Admin login not working?
+A: 1. Need to sign up first (creates auth.users)
+   2. Then update profile to role='admin'
+   3. Or use Supabase dashboard to create user manually
+
+Q: Products showing wrong prices?
+A: 1. Verify SQL ran completely
+   2. Try clearing browser cache
+   3. Check database directly in Supabase
+
+================================================================================
+
+SUCCESS INDICATORS:
+
+✅ Script runs without errors
+✅ Shows "Query executed successfully"
+✅ Products appear on /products page
+✅ All 60+ products visible
+✅ Prices are realistic
+✅ Categories are populated
+✅ Admin dashboard shows stats
+✅ Orders and services visible
+
+================================================================================
+
+NEXT STEPS:
+
+1. Run the SQL script (POPULATE_DATA.sql)
+2. Visit /products and see 60+ items ✅
+3. Sign up as new user
+4. Add items to cart
+5. Create sample order
+6. Try admin features
+7. Test all functionality
+
+Everything ready for comprehensive testing!
+
+================================================================================
+
+FILE TO RUN:
+   POPULATE_DATA.sql
+
+DOCUMENTATION:
+   DATA_POPULATION_GUIDE.md
+
+TIME: 5 minutes setup → Hours of testing with realistic data!
+
+================================================================================
+
+Status: ✅ READY TO POPULATE
+
+Next Action: Open Supabase SQL Editor and run POPULATE_DATA.sql
+
+================================================================================

@@ -1,0 +1,87 @@
+================================================================================
+  🚨 IMMEDIATE ACTION REQUIRED - RLS FIX
+================================================================================
+
+ERROR YOU SAW:
+  Profile creation error: infinite recursion detected in policy for relation "profiles"
+
+ROOT CAUSE:
+  RLS policies were recursively checking the profiles table
+
+WHAT WE FIXED:
+  ✅ Updated RLS policies to eliminate recursion
+  ✅ Updated auth code to use service role for profile creation
+  ✅ All code changes applied and build verified
+
+WHAT YOU NEED TO DO (5 MINUTES):
+  
+  1. Open Supabase Dashboard
+     → https://app.supabase.com
+  
+  2. Go to SQL Editor
+     → Click "SQL Editor" in left sidebar
+  
+  3. Click "New Query"
+  
+  4. Copy-Paste ALL Content From:
+     → FIX_RLS_RECURSION.sql
+  
+  5. Click "Run" button
+     → Should see: "Query executed successfully"
+  
+  6. Done! ✅
+
+THEN TEST:
+  
+  1. npm run dev
+  2. Go to http://localhost:3000
+  3. Click "Sign Up"
+  4. Create a test account
+  5. Should work without errors ✅
+
+FILE TO RUN:
+  FIX_RLS_RECURSION.sql (in project root)
+
+DOCUMENTATION:
+  Read: RLS_FIX_GUIDE.md for full details
+
+STATUS:
+  Build:           ✅ SUCCESS
+  Code Changes:    ✅ APPLIED
+  Ready to Test:   YES
+  
+  PENDING: Run SQL script in Supabase (you need to do this)
+
+================================================================================
+
+QUICK SUMMARY:
+
+The infinite recursion happened because the RLS policy was checking the 
+profiles table while trying to enforce a policy ON the profiles table.
+
+We fixed it by:
+  1. Removing recursive profile checks from all policies
+  2. Using service role for profile creation (bypasses RLS)
+  3. Keeping security intact with direct auth checks
+
+Now everything should work!
+
+================================================================================
+
+SUPPORT:
+
+If SQL script doesn't work:
+  1. Clear your Supabase connection
+  2. Try running smaller chunks
+  3. Check Supabase logs for errors
+  4. Delete old policies manually first if needed
+
+Questions? Read: RLS_FIX_GUIDE.md
+
+================================================================================
+
+BUILD STATUS: ✅ READY TO GO
+
+Next: Run the SQL script, then test signup!
+
+================================================================================
