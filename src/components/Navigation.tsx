@@ -31,7 +31,7 @@ export default function Navigation() {
     <nav className={`fixed w-full top-0 z-50 transition-all duration-500 ${
       scrolled 
         ? 'bg-white/95 backdrop-blur-xl shadow-lg border-b border-gray-200' 
-        : 'bg-gradient-to-b from-black via-black to-black/80 border-b border-oracle-500/30'
+        : 'bg-slate-900/90 backdrop-blur-xl border-b border-oracle-500/30'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
@@ -147,7 +147,7 @@ export default function Navigation() {
         {/* Mobile Menu */}
         {isOpen && (
           <div className={`md:hidden pb-6 space-y-3 animate-slide-in ${
-            scrolled ? 'bg-white' : 'bg-oracle-900/95 backdrop-blur-xl'
+            scrolled ? 'bg-white' : 'bg-slate-900/95 backdrop-blur-xl'
           }`}>
             {navItems.map((item) => (
               <Link

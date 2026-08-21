@@ -102,27 +102,27 @@ export default function ProductsPage() {
             <Sparkles className="w-4 h-4 text-oracle-400" />
             <span className="text-sm font-semibold text-oracle-300">Explore Our Catalog</span>
           </div>
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-3">
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-white via-slate-200 to-slate-300 bg-clip-text text-transparent mb-3">
             Products
           </h1>
-          <p className="text-gray-400 text-lg">Discover enterprise-grade technology solutions</p>
+          <p className="text-slate-300 text-lg">Discover enterprise-grade technology solutions</p>
         </div>
 
         {/* Filters Section - Glassmorphism */}
-        <div className="bg-surface-elevated2/50 backdrop-blur-xl rounded-2xl border border-white/10 p-6 mb-8 shadow-soft-md animate-slide-in">
+        <div className="bg-surface-elevated2/50 backdrop-blur-xl rounded-2xl border border-slate-600/20 p-6 mb-8 shadow-soft-md animate-slide-in">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Search */}
             <form onSubmit={handleSearch} className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-300 mb-2">Search</label>
+              <label className="block text-sm font-medium text-slate-200 mb-2">Search</label>
               <div className="flex gap-2">
                 <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="Search by name, description, or SKU..."
-                    className="w-full pl-10 pr-4 py-3 bg-surface-elevated3 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-oracle-500 focus:border-transparent transition-all"
+                    className="w-full pl-10 pr-4 py-3 bg-surface-elevated3 border border-slate-600/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-oracle-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <button
@@ -136,7 +136,7 @@ export default function ProductsPage() {
 
             {/* Category Filter */}
             <div>
-              <label htmlFor="category" className="block text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
+              <label htmlFor="category" className="block text-sm font-medium text-slate-200 mb-2 flex items-center gap-2">
                 <Filter className="w-4 h-4" />
                 Category
               </label>
@@ -144,7 +144,7 @@ export default function ProductsPage() {
                 id="category"
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full px-4 py-3 bg-surface-elevated3 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-oracle-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-surface-elevated3 border border-slate-600/30 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-oracle-500 focus:border-transparent transition-all"
               >
                 <option value="">All Categories</option>
                 {categories.map(cat => (
@@ -158,7 +158,7 @@ export default function ProductsPage() {
 
           {/* Sort */}
           <div className="mt-4">
-            <label htmlFor="sort" className="block text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
+            <label htmlFor="sort" className="block text-sm font-medium text-slate-200 mb-2 flex items-center gap-2">
               <TrendingUp className="w-4 h-4" />
               Sort By
             </label>
@@ -166,7 +166,7 @@ export default function ProductsPage() {
               id="sort"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="w-full md:w-48 px-4 py-3 bg-surface-elevated3 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-oracle-500 focus:border-transparent transition-all"
+              className="w-full md:w-48 px-4 py-3 bg-surface-elevated3 border border-slate-600/30 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-oracle-500 focus:border-transparent transition-all"
             >
               <option value="name">Name (A-Z)</option>
               <option value="price_low">Price (Low to High)</option>
@@ -201,13 +201,13 @@ export default function ProductsPage() {
         {isLoading ? (
           <div className="text-center py-20">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-oracle-500 mb-4"></div>
-            <p className="text-gray-400">Loading products...</p>
+            <p className="text-slate-400">Loading products...</p>
           </div>
         ) : products.length === 0 ? (
-          <div className="bg-surface-elevated2 rounded-2xl border border-white/10 p-12 text-center shadow-soft">
+          <div className="bg-surface-elevated2 rounded-2xl border border-slate-600/20 p-12 text-center shadow-soft">
             <div className="text-6xl mb-4">🔍</div>
             <h2 className="text-2xl font-bold text-white mb-2">No Products Found</h2>
-            <p className="text-gray-400">
+            <p className="text-slate-300">
               {searchTerm || selectedCategory
                 ? 'Try adjusting your search or filters'
                 : 'No products available at the moment'}
@@ -217,7 +217,7 @@ export default function ProductsPage() {
           <>
             {/* Results Count */}
             <div className="mb-6">
-              <p className="text-gray-400">
+              <p className="text-slate-300">
                 Showing <span className="font-bold text-white">{products.length}</span> product
                 {products.length !== 1 ? 's' : ''}
               </p>

@@ -22,13 +22,13 @@ const config: Config = {
           800: '#075985',
           900: '#0c3d66',
         },
-        // Dark Spatial UI Colors
+        // Accessible Dark Spatial UI Colors (deep navy/slate)
         surface: {
-          base: '#0a0a0a',
-          elevated1: '#121212',
-          elevated2: '#1a1a1a',
-          elevated3: '#222222',
-          elevated4: '#2a2a2a',
+          base: '#0f172a',
+          elevated1: '#1e2a3a',
+          elevated2: '#1e293b',
+          elevated3: '#263348',
+          elevated4: '#2e3d55',
         },
         // Aurora Colors
         aurora: {

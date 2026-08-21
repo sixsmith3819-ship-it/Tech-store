@@ -6,7 +6,7 @@ import { ArrowRight, Zap, Shield, Users, Sparkles, TrendingUp, Clock } from 'luc
 
 export default function Home() {
   return (
-    <div className="w-full bg-black text-white overflow-hidden">
+    <div className="w-full bg-surface-base text-slate-100 overflow-hidden">
       {/* Animated background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-oracle-500/20 rounded-full blur-3xl animate-float"></div>
@@ -30,7 +30,7 @@ export default function Home() {
                   <h1 className="text-6xl lg:text-7xl font-bold bg-gradient-to-r from-oracle-300 via-blue-300 to-purple-300 bg-clip-text text-transparent">
                     Enterprise Technology Redefined
                   </h1>
-                  <p className="text-xl text-gray-300 max-w-xl leading-relaxed">
+                  <p className="text-xl text-slate-300 max-w-xl leading-relaxed">
                     Discover cutting-edge products and professional services designed for businesses that demand excellence. Your innovation partner starts here.
                   </p>
                 </div>
@@ -55,15 +55,15 @@ export default function Home() {
                 <div className="grid grid-cols-3 gap-4 pt-8">
                   <div className="space-y-1">
                     <div className="text-3xl font-bold text-oracle-400">500+</div>
-                    <div className="text-sm text-gray-400">Products</div>
+                    <div className="text-sm text-slate-400">Products</div>
                   </div>
                   <div className="space-y-1">
                     <div className="text-3xl font-bold text-oracle-400">10K+</div>
-                    <div className="text-sm text-gray-400">Happy Clients</div>
+                    <div className="text-sm text-slate-400">Happy Clients</div>
                   </div>
                   <div className="space-y-1">
                     <div className="text-3xl font-bold text-oracle-400">24/7</div>
-                    <div className="text-sm text-gray-400">Support</div>
+                    <div className="text-sm text-slate-400">Support</div>
                   </div>
                 </div>
               </div>
@@ -89,7 +89,7 @@ export default function Home() {
               <h2 className="text-5xl font-bold bg-gradient-to-r from-oracle-300 to-blue-300 bg-clip-text text-transparent">
                 Shop by Category
               </h2>
-              <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              <p className="text-slate-300 text-lg max-w-2xl mx-auto">
                 Browse our extensive collection of enterprise-grade technology solutions
               </p>
             </div>
@@ -124,7 +124,7 @@ export default function Home() {
               <h2 className="text-5xl font-bold bg-gradient-to-r from-oracle-300 to-blue-300 bg-clip-text text-transparent">
                 Professional Services
               </h2>
-              <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              <p className="text-slate-300 text-lg max-w-2xl mx-auto">
                 Expert technical support and installation from certified professionals
               </p>
             </div>
@@ -142,7 +142,7 @@ export default function Home() {
                       <Zap size={24} className="text-blue-400" />
                     </div>
                     <h3 className="font-bold text-xl group-hover:text-blue-300 transition-colors">{service.name}</h3>
-                    <p className="text-gray-400 group-hover:text-gray-300 transition-colors">Professional {service.name.toLowerCase()} services for your business</p>
+                    <p className="text-slate-300 group-hover:text-slate-200 transition-colors">Professional {service.name.toLowerCase()} services for your business</p>
                     <div className="flex items-center gap-2 text-blue-400 group-hover:gap-3 transition-all">
                       <span className="text-sm">Learn more</span>
                       <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -175,7 +175,7 @@ export default function Home() {
                     <Shield size={24} className="text-emerald-400" />
                   </div>
                   <h3 className="font-bold text-xl">Quality Assured</h3>
-                  <p className="text-gray-400">Curated selection of enterprise-grade technology and equipment</p>
+                  <p className="text-slate-300">Curated selection of enterprise-grade technology and equipment</p>
                 </div>
               </div>
 
@@ -186,7 +186,7 @@ export default function Home() {
                     <TrendingUp size={24} className="text-orange-400" />
                   </div>
                   <h3 className="font-bold text-xl">Expert Support</h3>
-                  <p className="text-gray-400">Professional installation and technical support from experienced technicians</p>
+                  <p className="text-slate-300">Professional installation and technical support from experienced technicians</p>
                 </div>
               </div>
 
@@ -197,7 +197,7 @@ export default function Home() {
                     <Clock size={24} className="text-purple-400" />
                   </div>
                   <h3 className="font-bold text-xl">Always Available</h3>
-                  <p className="text-gray-400">Dedicated support team ready to assist 24/7 with orders and services</p>
+                  <p className="text-slate-300">Dedicated support team ready to assist 24/7 with orders and services</p>
                 </div>
               </div>
             </div>
@@ -213,7 +213,7 @@ export default function Home() {
                 <h2 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-oracle-300 via-blue-300 to-purple-300 bg-clip-text text-transparent">
                   Ready to Transform Your Business?
                 </h2>
-                <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+                <p className="text-xl text-slate-300 max-w-2xl mx-auto">
                   Join thousands of satisfied customers who trust Oracle Tech Store for their technology needs
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
@@ -238,7 +238,7 @@ export default function Home() {
 
         {/* Footer */}
         <footer className="border-t border-oracle-400/10 py-12 px-4 mt-20">
-          <div className="max-w-7xl mx-auto text-center text-gray-400">
+          <div className="max-w-7xl mx-auto text-center text-slate-400">
             <p className="mb-4">© 2024 Oracle Tech Store. All rights reserved.</p>
             <div className="flex justify-center gap-6 text-sm">
               <Link href="/about" className="hover:text-oracle-400 transition">About</Link>

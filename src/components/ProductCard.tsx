@@ -43,7 +43,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <div className="group relative bg-surface-elevated2 rounded-2xl overflow-hidden border border-white/5 hover:border-oracle-400/30 transition-all duration-500 h-full flex flex-col hover:shadow-soft-lg hover:-translate-y-1">
+    <div className="group relative bg-surface-elevated2 rounded-2xl overflow-hidden border border-slate-600/20 hover:border-oracle-400/30 transition-all duration-500 h-full flex flex-col hover:shadow-soft-lg hover:-translate-y-1">
       {/* Aurora Glow on Hover */}
       <div className="absolute inset-0 bg-gradient-to-br from-oracle-500/0 via-purple-500/0 to-transparent group-hover:from-oracle-500/5 group-hover:via-purple-500/5 transition-all duration-500 pointer-events-none"></div>
 
@@ -58,7 +58,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <Package className="w-16 h-16 text-gray-600" strokeWidth={1.5} />
+            <Package className="w-16 h-16 text-slate-500" strokeWidth={1.5} />
           </div>
         )}
 
@@ -93,22 +93,22 @@ export default function ProductCard({ product }: ProductCardProps) {
         </Link>
 
         {/* SKU */}
-        <p className="text-xs text-gray-500 mb-3 font-mono">SKU: {product.sku}</p>
+        <p className="text-xs text-slate-400 mb-3 font-mono">SKU: {product.sku}</p>
 
         {/* Description Preview */}
-        <p className="text-sm text-gray-400 mb-4 line-clamp-2 flex-grow leading-relaxed">
+        <p className="text-sm text-slate-300 mb-4 line-clamp-2 flex-grow leading-relaxed">
           {product.description}
         </p>
 
         {/* Price Section */}
-        <div className="mb-4 pt-4 border-t border-white/5">
+        <div className="mb-4 pt-4 border-t border-slate-600/20">
           <div className="flex items-baseline gap-2">
             <p className="text-3xl font-bold bg-gradient-to-r from-oracle-300 to-oracle-400 bg-clip-text text-transparent">
               {formatCurrency(product.price)}
             </p>
           </div>
           {product.stock_quantity > 0 && (
-            <p className="text-xs text-gray-500 mt-1.5">
+            <p className="text-xs text-slate-400 mt-1.5">
               {product.stock_quantity} units available
             </p>
           )}
@@ -129,7 +129,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 ${
               isAvailable
                 ? 'bg-gradient-to-r from-oracle-500 to-oracle-600 hover:from-oracle-600 hover:to-oracle-700 text-white shadow-soft hover:shadow-glow transform hover:scale-[1.02] active:scale-[0.98]'
-                : 'bg-surface-elevated3 text-gray-500 cursor-not-allowed'
+                : 'bg-surface-elevated3 text-slate-400 cursor-not-allowed'
             }`}
           >
             <ShoppingCart className="w-4 h-4" />
@@ -138,9 +138,9 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           <Link
             href={`/products/${product.id}`}
-            className="px-4 py-3 rounded-xl border border-white/10 hover:border-oracle-400/50 hover:bg-oracle-400/10 transition-all duration-300 flex items-center justify-center backdrop-blur-sm group/btn"
+            className="px-4 py-3 rounded-xl border border-slate-600/30 hover:border-oracle-400/50 hover:bg-oracle-400/10 transition-all duration-300 flex items-center justify-center backdrop-blur-sm group/btn"
           >
-            <Eye className="w-4 h-4 text-gray-400 group-hover/btn:text-oracle-300 transition-colors" />
+            <Eye className="w-4 h-4 text-slate-400 group-hover/btn:text-oracle-300 transition-colors" />
           </Link>
         </div>
       </div>
