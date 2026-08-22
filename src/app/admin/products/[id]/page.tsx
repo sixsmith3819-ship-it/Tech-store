@@ -39,6 +39,7 @@ interface EditProductForm {
   price: string
   stock_quantity: string
   new_image_urls: string[]
+  delete_image_ids: string[]
   // Installation service
   installation_available: boolean
   installation_fee: string
@@ -724,6 +725,10 @@ export default function EditProductPage() {
     </div>
   )
 }
+
+
+
+
 
 
 

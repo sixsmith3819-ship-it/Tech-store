@@ -47,7 +47,7 @@ export async function GET(
 
     // Sort product_images by display_order
     if (product?.product_images) {
-      product.product_images = product.product_images.sort((a, b) => (a.display_order || 0) - (b.display_order || 0))
+      product.product_images = product.product_images.sort((a: any, b: any) => (a.display_order || 0) - (b.display_order || 0))
     }
 
     const response = NextResponse.json(
@@ -78,4 +78,5 @@ export async function GET(
     )
   }
 }
+
 

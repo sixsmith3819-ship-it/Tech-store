@@ -68,7 +68,7 @@ export async function GET(request: Request) {
     if (products) {
       products = products.map(product => ({
         ...product,
-        product_images: product.product_images?.sort((a, b) => (a.display_order || 0) - (b.display_order || 0)) || []
+        product_images: product.product_images?.sort((a: any, b: any) => (a.display_order || 0) - (b.display_order || 0)) || []
       }))
     }
 
@@ -101,3 +101,4 @@ export async function GET(request: Request) {
     )
   }
 }
+
