@@ -62,6 +62,7 @@ export default function EditProductPage() {
     price: '',
     stock_quantity: '',
     new_image_urls: [],
+    delete_image_ids: [],
     installation_available: false,
     installation_fee: '0',
     installation_description: '',
@@ -128,6 +129,7 @@ export default function EditProductPage() {
           price: prod.price.toString(),
           stock_quantity: prod.stock_quantity.toString(),
           new_image_urls: [],
+          delete_image_ids: [],
           installation_available: prod.installation_available ?? false,
           installation_fee: prod.installation_fee != null ? prod.installation_fee.toString() : '0',
           installation_description: prod.installation_description ?? '',
@@ -725,6 +727,8 @@ export default function EditProductPage() {
     </div>
   )
 }
+
+
 
 
 
