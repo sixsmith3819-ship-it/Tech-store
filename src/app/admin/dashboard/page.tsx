@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { 
   Package, DollarSign, Clock, Wrench, AlertCircle, Users, 
-  TrendingUp, MessageCircle, ShoppingBag, Settings, BarChart3, Shield 
+  TrendingUp, MessageCircle, ShoppingBag, Settings, BarChart3, Shield, Mail, Info
 } from 'lucide-react'
 
 interface DashboardStats {
@@ -258,6 +258,8 @@ export default function AdminDashboard() {
               { href: '/admin/messages', icon: MessageCircle, title: 'Messages', desc: 'Customer conversations', color: 'pink' },
               { href: '/admin/products', icon: ShoppingBag, title: 'Products', desc: 'Manage inventory', color: 'emerald' },
               { href: '/admin/settings', icon: Settings, title: 'Settings', desc: 'Admin preferences', color: 'gray' },
+              { href: '/admin/about', icon: Info, title: 'About', desc: 'About our store', color: 'emerald' },
+              { href: '/admin/contact', icon: Mail, title: 'Contact', desc: 'Contact information', color: 'blue' },
             ].map((tool, index) => {
               const Icon = tool.icon
               const colorMap: Record<string, string> = {
@@ -312,3 +314,5 @@ export default function AdminDashboard() {
     </div>
   )
 }
+
+
