@@ -20,7 +20,7 @@ export async function PUT(request: Request) {
     }
 
     const body = await request.json()
-    const { id, category_id, name, sku, description, price, stock_quantity, new_image_urls,
+    const { id, category_id, name, sku, description, price, stock_quantity, new_image_urls, delete_image_ids,
       installation_available, installation_fee, installation_description } = body
 
     if (!id) {
@@ -71,6 +71,24 @@ export async function PUT(request: Request) {
         },
         { status: 400 }
       )
+    }
+
+    // Handle deleted images if provided
+    if (delete_image_ids && Array.isArray(delete_image_ids) && delete_image_ids.length > 0) {
+      try {
+        const { error: deleteError } = await supabase
+          .from('product_images')
+          .delete()
+          .in('id', delete_image_ids)
+
+        if (deleteError) {
+          console.error('Error deleting images:', deleteError)
+          console.warn('Some images were not deleted, but product was updated')
+        }
+      } catch (deleteImageError) {
+        console.error('Error handling image deletion:', deleteImageError)
+        // Don't fail the entire request
+      }
     }
 
     // Handle new images if provided
