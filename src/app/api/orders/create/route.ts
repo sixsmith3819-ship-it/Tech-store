@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     // ── Server-side price + installation validation ─────────────────
     const supabase = createServiceRoleClient()
 
-    const productIds: string[] = [...new Set(items.map((i: any) => i.product_id as string))]
+    const productIds: string[] = [...new Set<string>(items.map((i: any) => i.product_id as string))]
     const { data: dbProducts, error: prodErr } = await supabase
       .from('products')
       .select('id, price, installation_available, installation_fee, installation_description')
@@ -42,7 +42,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, message: 'Failed to validate products' }, { status: 500 })
     }
 
-    const productMap = new Map(dbProducts.map((p: any) => [p.id, p]))
+    interface DbProduct {
+      id: string
+      price: number
+      installation_available: boolean
+      installation_fee: number
+      installation_description: string | null
+    }
+
+    const productMap = new Map<string, DbProduct>(
+      (dbProducts as DbProduct[]).map((p) => [p.id, p])
+    )
 
     // Build validated order items — server controls prices and installation fees
     let serverCalculatedTotal = 0
