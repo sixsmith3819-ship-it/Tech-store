@@ -1,11 +1,13 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/hooks/useAuth'
 import { ArrowLeft, MessageCircle, Mail, Phone, MapPin } from 'lucide-react'
-import { useState } from 'react'
 
 export default function ContactPage() {
   const router = useRouter()
+  const { isLoading, isAuthenticated, isAdmin } = useAuth()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -14,6 +16,33 @@ export default function ContactPage() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.push('/auth/login')
+      return
+    }
+
+    if (!isLoading && !isAdmin) {
+      router.push('/dashboard')
+      return
+    }
+  }, [isLoading, isAuthenticated, isAdmin, router])
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-surface-base flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-oracle-500 mb-4"></div>
+          <p className="text-gray-400">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated || !isAdmin) {
+    return null
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target

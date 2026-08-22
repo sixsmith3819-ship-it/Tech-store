@@ -1,11 +1,41 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/hooks/useAuth'
 import { ArrowLeft, MapPin, Mail, Phone, Store } from 'lucide-react'
 import Link from 'next/link'
 
 export default function AboutPage() {
   const router = useRouter()
+  const { isLoading, isAuthenticated, isAdmin } = useAuth()
+
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.push('/auth/login')
+      return
+    }
+
+    if (!isLoading && !isAdmin) {
+      router.push('/dashboard')
+      return
+    }
+  }, [isLoading, isAuthenticated, isAdmin, router])
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-surface-base flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-oracle-500 mb-4"></div>
+          <p className="text-gray-400">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated || !isAdmin) {
+    return null
+  }
 
   return (
     <div className="min-h-screen bg-surface-base py-12 px-4 sm:px-6 lg:px-8">
