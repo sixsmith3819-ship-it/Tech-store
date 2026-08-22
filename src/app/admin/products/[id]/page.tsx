@@ -228,6 +228,20 @@ export default function EditProductPage() {
     }))
   }
 
+  const handleDeleteExistingImage = (imageId: string) => {
+    setFormData(prev => ({
+      ...prev,
+      delete_image_ids: [...prev.delete_image_ids, imageId],
+    }))
+    // Also remove from displayed list
+    if (product) {
+      setProduct(prev => ({
+        ...prev!,
+        product_images: (prev?.product_images || []).filter(img => img.id !== imageId),
+      }))
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setErrors({})
@@ -616,8 +630,19 @@ export default function EditProductPage() {
                 <div className="space-y-2">
                   {product.product_images.map((img, index) => (
                     <div key={img.id} className="flex items-center justify-between p-3 bg-surface-base border border-white/10 rounded-lg">
-                      <span className="text-sm text-gray-400 truncate">{img.image_url}</span>
-                      <span className="text-xs text-gray-500">Order: {img.display_order}</span>
+                      <div className="flex items-center gap-2 flex-1 min-w-0">
+                        <span className="text-sm text-gray-400 truncate">{img.image_url}</span>
+                        <span className="text-xs text-gray-500 whitespace-nowrap">Order: {img.display_order}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteExistingImage(img.id)}
+                        disabled={isSubmitting}
+                        className="ml-2 flex-shrink-0 text-red-400 hover:text-red-300 transition-colors"
+                        title="Delete this image"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -727,6 +752,8 @@ export default function EditProductPage() {
     </div>
   )
 }
+
+
 
 
 
