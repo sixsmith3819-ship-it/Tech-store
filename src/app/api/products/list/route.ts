@@ -64,6 +64,14 @@ export async function GET(request: Request) {
       ) || []
     }
 
+    // Sort product_images by display_order within each product
+    if (products) {
+      products = products.map(product => ({
+        ...product,
+        product_images: product.product_images?.sort((a, b) => (a.display_order || 0) - (b.display_order || 0)) || []
+      }))
+    }
+
     return NextResponse.json(
       {
         success: true,
