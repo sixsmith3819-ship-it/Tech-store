@@ -33,6 +33,10 @@ export interface Product {
   price: number
   stock_quantity: number
   status: 'in_stock' | 'low_stock' | 'out_of_stock'
+  // Installation service fields
+  installation_available: boolean
+  installation_fee: number
+  installation_description?: string
   created_at: string
   updated_at: string
 }
@@ -49,9 +53,16 @@ export interface ProductImage {
 
 // Shopping Cart (client-side state)
 export interface CartItem {
+  cart_key: string       // unique key: product_id + installation flag e.g. "uuid-true"
   product_id: string
-  quantity: number
+  product_name: string
+  sku: string
   price: number
+  quantity: number
+  // Installation fields
+  installation_selected: boolean
+  installation_fee: number
+  installation_description?: string
 }
 
 // Orders
@@ -66,12 +77,15 @@ export interface Order {
   delivery_address: string
   additional_instructions?: string
   total_amount: number
+  payment_method?: string
   status: OrderStatus
   created_at: string
   updated_at: string
 }
 
 // Order Items
+export type InstallationStatus = 'none' | 'requested' | 'scheduled' | 'in_progress' | 'completed' | 'cancelled'
+
 export interface OrderItem {
   id: string
   order_id: string
@@ -80,6 +94,11 @@ export interface OrderItem {
   quantity: number
   unit_price: number
   total_price: number
+  // Installation fields
+  installation_selected: boolean
+  installation_fee: number
+  installation_description?: string
+  installation_status: InstallationStatus
 }
 
 // Service Types

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useParams } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
-import { ArrowLeft, Package, Plus, X } from 'lucide-react'
+import { ArrowLeft, Package, Plus, X, Wrench } from 'lucide-react'
 
 interface Category {
   id: string
@@ -39,6 +39,10 @@ interface EditProductForm {
   price: string
   stock_quantity: string
   new_image_urls: string[]
+  // Installation service
+  installation_available: boolean
+  installation_fee: string
+  installation_description: string
 }
 
 export default function EditProductPage() {
@@ -57,6 +61,9 @@ export default function EditProductPage() {
     price: '',
     stock_quantity: '',
     new_image_urls: [],
+    installation_available: false,
+    installation_fee: '0',
+    installation_description: '',
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -120,6 +127,9 @@ export default function EditProductPage() {
           price: prod.price.toString(),
           stock_quantity: prod.stock_quantity.toString(),
           new_image_urls: [],
+          installation_available: prod.installation_available ?? false,
+          installation_fee: prod.installation_fee != null ? prod.installation_fee.toString() : '0',
+          installation_description: prod.installation_description ?? '',
         })
       } catch (error) {
         setErrors({ general: error instanceof Error ? error.message : 'An error occurred' })
@@ -145,6 +155,11 @@ export default function EditProductPage() {
         return newErrors
       })
     }
+  }
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target
+    setFormData(prev => ({ ...prev, [name]: checked }))
   }
 
   const handleAddImage = () => {
@@ -247,6 +262,12 @@ export default function EditProductPage() {
         validationErrors.stock_quantity = 'Stock quantity cannot be negative'
       }
 
+      if (formData.installation_available) {
+        if (!formData.installation_fee || parseFloat(formData.installation_fee) <= 0) {
+          validationErrors.installation_fee = 'Installation fee must be greater than 0 when installation is enabled'
+        }
+      }
+
       if (Object.keys(validationErrors).length > 0) {
         setErrors(validationErrors)
         return
@@ -259,6 +280,9 @@ export default function EditProductPage() {
         body: JSON.stringify({
           id: productId,
           ...formData,
+          installation_available: formData.installation_available,
+          installation_fee: formData.installation_available ? parseFloat(formData.installation_fee) : 0,
+          installation_description: formData.installation_description.trim() || null,
         }),
       })
 
@@ -494,6 +518,89 @@ export default function EditProductPage() {
               />
               {errors.stock_quantity && (
                 <p className="mt-1 text-sm text-red-400">{errors.stock_quantity}</p>
+              )}
+            </div>
+
+            {/* Current Images */}
+            {/* ── Installation Service ───────────────────────────── */}
+            <div className="border-t border-white/10 pt-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Wrench className="w-5 h-5 text-emerald-400" />
+                <h3 className="text-lg font-bold text-white">Installation Service</h3>
+              </div>
+
+              {/* Enable toggle */}
+              <div className="flex items-start gap-4 p-4 bg-surface-base rounded-xl border border-white/10 mb-4">
+                <div className="relative inline-flex mt-0.5">
+                  <input
+                    id="installation_available"
+                    name="installation_available"
+                    type="checkbox"
+                    checked={formData.installation_available}
+                    onChange={handleCheckboxChange}
+                    disabled={isSubmitting}
+                    className="sr-only peer"
+                  />
+                  <label
+                    htmlFor="installation_available"
+                    className="w-11 h-6 bg-surface-elevated4 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-oracle-500 rounded-full peer peer-checked:bg-emerald-500 cursor-pointer after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5 block"
+                  ></label>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-white">Offer installation service for this product</p>
+                  <p className="text-xs text-gray-400 mt-0.5">Customers will see an option to add professional installation at checkout</p>
+                </div>
+              </div>
+
+              {/* Fee + description — only shown when enabled */}
+              {formData.installation_available && (
+                <div className="space-y-4 pl-2 border-l-2 border-emerald-500/30 ml-1 animate-scale-in">
+                  <div>
+                    <label htmlFor="installation_fee" className="block text-sm font-medium text-gray-300 mb-2">
+                      Installation Fee ($) <span className="text-red-400">*</span>
+                    </label>
+                    <input
+                      id="installation_fee"
+                      name="installation_fee"
+                      type="number"
+                      step="0.01"
+                      min="0.01"
+                      value={formData.installation_fee}
+                      onChange={handleChange}
+                      disabled={isSubmitting}
+                      className={`w-full px-4 py-3 bg-surface-base border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-oracle-500 transition-all ${
+                        errors.installation_fee ? 'border-red-500/50' : 'border-white/10'
+                      }`}
+                      placeholder="0.00"
+                    />
+                    {errors.installation_fee && (
+                      <p className="mt-1 text-sm text-red-400">{errors.installation_fee}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label htmlFor="installation_description" className="block text-sm font-medium text-gray-300 mb-2">
+                      Installation Description <span className="text-gray-500 font-normal">(shown to customers)</span>
+                    </label>
+                    <textarea
+                      id="installation_description"
+                      name="installation_description"
+                      value={formData.installation_description}
+                      onChange={handleChange}
+                      disabled={isSubmitting}
+                      rows={3}
+                      className="w-full px-4 py-3 bg-surface-base border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-oracle-500 transition-all"
+                      placeholder="e.g. Professional CCTV installation by certified technicians. Includes mounting, cabling, and configuration."
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-2 p-3 bg-emerald-500/10 border border-emerald-400/20 rounded-lg">
+                    <Wrench className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                    <p className="text-xs text-emerald-300">
+                      Installation fee is validated server-side — customers cannot manipulate this value.
+                    </p>
+                  </div>
+                </div>
               )}
             </div>
 

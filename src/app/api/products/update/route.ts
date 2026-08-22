@@ -20,7 +20,8 @@ export async function PUT(request: Request) {
     }
 
     const body = await request.json()
-    const { id, category_id, name, sku, description, price, stock_quantity, new_image_urls } = body
+    const { id, category_id, name, sku, description, price, stock_quantity, new_image_urls,
+      installation_available, installation_fee, installation_description } = body
 
     if (!id) {
       return NextResponse.json(
@@ -48,6 +49,10 @@ export async function PUT(request: Request) {
       // Auto-update status based on stock
       updateData.status = qty === 0 ? 'out_of_stock' : qty < 10 ? 'low_stock' : 'in_stock'
     }
+    // Installation service fields
+    if (installation_available !== undefined) updateData.installation_available = Boolean(installation_available)
+    if (installation_fee !== undefined) updateData.installation_fee = parseFloat(installation_fee) || 0
+    if (installation_description !== undefined) updateData.installation_description = installation_description || null
 
     // Update product
     const { data: product, error: productError } = await supabase

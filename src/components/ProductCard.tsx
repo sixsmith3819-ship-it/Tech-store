@@ -28,11 +28,14 @@ export default function ProductCard({ product }: ProductCardProps) {
 
     setIsAdding(true)
     addItem({
+      cart_key: `${product.id}-false`,
       product_id: product.id,
       product_name: product.name,
       price: product.price,
       quantity: 1,
       sku: product.sku,
+      installation_selected: false,
+      installation_fee: 0,
     })
 
     setAddedMessage(true)

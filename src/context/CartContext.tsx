@@ -3,20 +3,26 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 
 export interface CartItem {
+  cart_key: string            // unique: product_id + '-' + installation_selected
   product_id: string
   product_name: string
-  price: number
+  price: number               // product base price only
   quantity: number
   sku: string
+  installation_selected: boolean
+  installation_fee: number    // per-unit installation fee (0 if not selected)
+  installation_description?: string
 }
 
 interface CartContextType {
   items: CartItem[]
   addItem: (item: CartItem) => void
-  removeItem: (productId: string) => void
-  updateQuantity: (productId: string, quantity: number) => void
+  removeItem: (cartKey: string) => void
+  updateQuantity: (cartKey: string, quantity: number) => void
   clearCart: () => void
-  getTotal: () => number
+  getTotal: () => number           // products subtotal (no installation)
+  getInstallationTotal: () => number
+  getGrandTotal: () => number      // products + installation (pre-tax)
   getItemCount: () => number
 }
 
@@ -28,18 +34,26 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   // Load cart from localStorage on mount
   useEffect(() => {
-    const savedCart = localStorage.getItem('cart')
-    if (savedCart) {
+    const saved = localStorage.getItem('cart')
+    if (saved) {
       try {
-        setItems(JSON.parse(savedCart))
-      } catch (error) {
-        console.error('Error loading cart:', error)
+        const parsed: CartItem[] = JSON.parse(saved)
+        // Back-compat: migrate old items that lack cart_key
+        const migrated = parsed.map(item => ({
+          ...item,
+          cart_key: item.cart_key ?? `${item.product_id}-false`,
+          installation_selected: item.installation_selected ?? false,
+          installation_fee: item.installation_fee ?? 0,
+        }))
+        setItems(migrated)
+      } catch {
+        // corrupted storage — start fresh
       }
     }
     setIsHydrated(true)
   }, [])
 
-  // Save cart to localStorage whenever it changes
+  // Persist cart to localStorage on every change (after hydration)
   useEffect(() => {
     if (isHydrated) {
       localStorage.setItem('cart', JSON.stringify(items))
@@ -47,63 +61,71 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [items, isHydrated])
 
   const addItem = (newItem: CartItem) => {
-    setItems(prevItems => {
-      const existingItem = prevItems.find(item => item.product_id === newItem.product_id)
-
-      if (existingItem) {
-        // Update quantity if product already in cart
-        return prevItems.map(item =>
-          item.product_id === newItem.product_id
-            ? { ...item, quantity: item.quantity + newItem.quantity }
-            : item
+    setItems(prev => {
+      const existing = prev.find(i => i.cart_key === newItem.cart_key)
+      if (existing) {
+        // Same product + same installation choice → increment quantity
+        return prev.map(i =>
+          i.cart_key === newItem.cart_key
+            ? { ...i, quantity: i.quantity + newItem.quantity }
+            : i
         )
       }
-
-      // Add new item to cart
-      return [...prevItems, newItem]
+      return [...prev, newItem]
     })
   }
 
-  const removeItem = (productId: string) => {
-    setItems(prevItems => prevItems.filter(item => item.product_id !== productId))
+  const removeItem = (cartKey: string) => {
+    setItems(prev => prev.filter(i => i.cart_key !== cartKey))
   }
 
-  const updateQuantity = (productId: string, quantity: number) => {
+  const updateQuantity = (cartKey: string, quantity: number) => {
     if (quantity <= 0) {
-      removeItem(productId)
+      removeItem(cartKey)
       return
     }
-
-    setItems(prevItems =>
-      prevItems.map(item =>
-        item.product_id === productId ? { ...item, quantity } : item
-      )
+    setItems(prev =>
+      prev.map(i => i.cart_key === cartKey ? { ...i, quantity } : i)
     )
   }
 
-  const clearCart = () => {
-    setItems([])
-  }
+  const clearCart = () => setItems([])
 
-  const getTotal = () => {
-    return items.reduce((total, item) => total + item.price * item.quantity, 0)
-  }
+  /** Products subtotal only (no installation fees) */
+  const getTotal = () =>
+    items.reduce((sum, i) => sum + i.price * i.quantity, 0)
 
-  const getItemCount = () => {
-    return items.reduce((count, item) => count + item.quantity, 0)
-  }
+  /** Installation fees total */
+  const getInstallationTotal = () =>
+    items.reduce((sum, i) => sum + i.installation_fee * i.quantity, 0)
+
+  /** Products + installation, pre-tax */
+  const getGrandTotal = () => getTotal() + getInstallationTotal()
+
+  const getItemCount = () =>
+    items.reduce((count, i) => count + i.quantity, 0)
 
   return (
-    <CartContext.Provider value={{ items, addItem, removeItem, updateQuantity, clearCart, getTotal, getItemCount }}>
+    <CartContext.Provider
+      value={{
+        items,
+        addItem,
+        removeItem,
+        updateQuantity,
+        clearCart,
+        getTotal,
+        getInstallationTotal,
+        getGrandTotal,
+        getItemCount,
+      }}
+    >
       {children}
     </CartContext.Provider>
   )
 }
 
 export function useCart() {
-  const context = useContext(CartContext)
-  if (context === undefined) {
-    throw new Error('useCart must be used within a CartProvider')
-  }
-  return context
+  const ctx = useContext(CartContext)
+  if (!ctx) throw new Error('useCart must be used within a CartProvider')
+  return ctx
 }
