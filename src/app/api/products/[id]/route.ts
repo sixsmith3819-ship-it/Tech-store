@@ -50,13 +50,20 @@ export async function GET(
       product.product_images = product.product_images.sort((a, b) => (a.display_order || 0) - (b.display_order || 0))
     }
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         success: true,
         product,
       },
       { status: 200 }
     )
+
+    // Disable caching - always fetch fresh data
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+    response.headers.set('Pragma', 'no-cache')
+    response.headers.set('Expires', '0')
+
+    return response
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     console.error('Product detail endpoint error:', error)
@@ -71,3 +78,4 @@ export async function GET(
     )
   }
 }
+

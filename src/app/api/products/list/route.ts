@@ -72,7 +72,7 @@ export async function GET(request: Request) {
       }))
     }
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         success: true,
         products: products || [],
@@ -80,6 +80,13 @@ export async function GET(request: Request) {
       },
       { status: 200 }
     )
+
+    // Disable caching - always fetch fresh data
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+    response.headers.set('Pragma', 'no-cache')
+    response.headers.set('Expires', '0')
+
+    return response
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     console.error('Products list endpoint error:', error)
