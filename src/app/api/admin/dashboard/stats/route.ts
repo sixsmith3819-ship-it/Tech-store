@@ -33,11 +33,11 @@ export async function GET() {
 
     const totalOrders = ordersData?.length || 0
     const totalRevenue = ordersData?.reduce((sum: number, order: any) => sum + (order.total_amount || 0), 0) || 0
-    const pendingOrders = ordersData?.filter(o => o.status === 'pending').length || 0
+    const pendingOrders = ordersData?.filter((o: any) => o.status === 'pending').length || 0
 
     // Get orders in last 24h
     const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
-    const recentOrders = ordersData?.filter(o => o.created_at > twentyFourHoursAgo).length || 0
+    const recentOrders = ordersData?.filter((o: any) => o.created_at > twentyFourHoursAgo).length || 0
 
     // Get service requests
     const { data: servicesData, error: servicesError } = await supabase
@@ -49,7 +49,7 @@ export async function GET() {
     }
 
     const totalServiceRequests = servicesData?.length || 0
-    const pendingServices = servicesData?.filter(s => s.status === 'pending').length || 0
+    const pendingServices = servicesData?.filter((s: any) => s.status === 'pending').length || 0
 
     // Get customers count
     const { data: customersData, error: customersError } = await supabase
@@ -106,3 +106,6 @@ export async function GET() {
     )
   }
 }
+
+
+
