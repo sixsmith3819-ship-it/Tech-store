@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { formatCurrency } from '@/utils/formatting'
-import { ArrowLeft, ShoppingBag, Search, Plus, Edit, Filter } from 'lucide-react'
+import { ArrowLeft, ShoppingBag, Search, Plus, Edit, Filter, Trash } from 'lucide-react'
 
 interface Product {
   id: string
@@ -83,6 +83,31 @@ export default function AdminProductsPage() {
         return 'bg-orange-500/20 text-orange-300 border-orange-400/30'
       default:
         return 'bg-red-500/20 text-red-300 border-red-400/30'
+    }
+  }
+
+  const handleDeleteProduct = async (productId: string) => {
+    if (!window.confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
+      return
+    }
+
+    try {
+      const response = await fetch(`/api/products/${productId}`, {
+        method: 'DELETE',
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setError(data.message || 'Failed to delete product')
+        return
+      }
+
+      // Remove from list
+      setProducts(prev => prev.filter(p => p.id !== productId))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred')
+      console.error(err)
     }
   }
 
@@ -227,13 +252,22 @@ export default function AdminProductsPage() {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-center">
-                        <Link
-                          href={`/admin/products/${product.id}`}
-                          className="inline-flex items-center gap-2 text-oracle-400 hover:text-oracle-300 font-medium transition-colors group"
-                        >
-                          <Edit className="w-4 h-4" />
-                          <span>Edit</span>
-                        </Link>
+                        <div className="flex items-center justify-center gap-4">
+                          <Link
+                            href={`/admin/products/${product.id}`}
+                            className="inline-flex items-center gap-2 text-oracle-400 hover:text-oracle-300 font-medium transition-colors group"
+                          >
+                            <Edit className="w-4 h-4" />
+                            <span>Edit</span>
+                          </Link>
+                          <button
+                            onClick={() => handleDeleteProduct(product.id)}
+                            className="inline-flex items-center gap-2 text-red-400 hover:text-red-300 font-medium transition-colors group"
+                            title="Delete product"
+                          >
+                            <Trash className="w-4 h-4" />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
