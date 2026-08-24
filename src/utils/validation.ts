@@ -149,3 +149,42 @@ export function validateLoginForm(data: {
 
   return errors
 }
+
+/**
+ * Validate new email for email change
+ */
+export function validateNewEmail(newEmail: string, currentEmail: string): ValidationError | null {
+  if (!newEmail) {
+    return { field: 'newEmail', message: 'New email is required' }
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(newEmail)) {
+    return { field: 'newEmail', message: 'Please enter a valid email address' }
+  }
+
+  if (newEmail.toLowerCase() === currentEmail.toLowerCase()) {
+    return { field: 'newEmail', message: 'New email must be different from current email' }
+  }
+
+  return null
+}
+
+/**
+ * Validate email change form
+ */
+export function validateEmailChangeForm(data: {
+  newEmail: string
+  password: string
+  currentEmail: string
+}): ValidationError[] {
+  const errors: ValidationError[] = []
+
+  const emailError = validateNewEmail(data.newEmail, data.currentEmail)
+  if (emailError) errors.push(emailError)
+
+  const passwordError = validatePassword(data.password)
+  if (passwordError) errors.push(passwordError)
+
+  return errors
+}

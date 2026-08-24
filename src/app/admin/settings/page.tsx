@@ -1,14 +1,22 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { ArrowLeft, Settings, Bell, Database, Shield, Save, X } from 'lucide-react'
+import EmailChangeForm from '@/components/EmailChangeForm'
 
 export default function AdminSettingsPage() {
   const router = useRouter()
-  const { isLoading, isAuthenticated, isAdmin } = useAuth()
+  const { isLoading, isAuthenticated, isAdmin, user } = useAuth()
+  const [userEmail, setUserEmail] = useState<string>('')
+
+  useEffect(() => {
+    if (user?.email) {
+      setUserEmail(user.email)
+    }
+  }, [user])
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -105,6 +113,9 @@ export default function AdminSettingsPage() {
               </div>
             </div>
           </div>
+
+          {/* Email Change Section */}
+          <EmailChangeForm currentEmail={userEmail} />
 
           {/* Notification Preferences */}
           <div className="bg-surface-elevated2 rounded-2xl border border-white/10 p-8 shadow-soft animate-slide-in" style={{ animationDelay: '100ms' }}>
