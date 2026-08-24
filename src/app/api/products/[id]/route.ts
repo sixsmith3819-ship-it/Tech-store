@@ -85,6 +85,7 @@ export async function GET(
 /**
  * DELETE /api/products/[id]
  * Delete a product (admin only)
+ * Cannot delete products that have been ordered
  */
 export async function DELETE(
   request: Request,
@@ -118,6 +119,36 @@ export async function DELETE(
 
     // Use service role client to bypass RLS
     const supabase = await createServiceRoleClient()
+
+    // Check if product has any orders
+    const { data: orderItems, error: checkError } = await supabase
+      .from('order_items')
+      .select('id', { count: 'exact' })
+      .eq('product_id', productId)
+
+    if (checkError) {
+      console.error('Error checking for orders:', checkError)
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Failed to check product orders',
+        },
+        { status: 500 }
+      )
+    }
+
+    // If product has orders, prevent deletion
+    if (orderItems && orderItems.length > 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: `Cannot delete this product. It has been ordered ${orderItems.length} time(s). Please contact support if you need to remove this product.`,
+          hasOrders: true,
+          orderCount: orderItems.length,
+        },
+        { status: 409 }
+      )
+    }
 
     // Delete product images first (foreign key constraint)
     const { error: imagesError } = await supabase
