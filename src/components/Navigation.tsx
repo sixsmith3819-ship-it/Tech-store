@@ -23,15 +23,11 @@ export default function Navigation() {
   const navItems = [
     { name: 'Products', href: '/products' },
     { name: 'Services', href: '/services' },
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
   ]
 
   return (
     <nav className={`fixed w-full top-0 z-50 transition-all duration-500 ${
-      scrolled 
-        ? 'bg-white/95 backdrop-blur-xl shadow-lg border-b border-gray-200' 
-        : 'bg-slate-900/90 backdrop-blur-xl border-b border-oracle-500/30'
+      scrolled ? 'bg-slate-900/95 backdrop-blur-xl shadow-lg border-b border-oracle-500/30' : 'bg-slate-900/90 backdrop-blur-xl border-b border-oracle-500/30'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
@@ -41,14 +37,14 @@ export default function Navigation() {
               OTS
             </div>
             <span className={`font-bold text-xl hidden sm:inline transition-colors duration-300 ${
-              scrolled ? 'text-gray-900' : 'text-white'
+              scrolled ? 'text-white' : 'text-white'
             }`}>
               Oracle Tech Store
             </span>
           </Link>
 
           {/* Desktop Menu */}
-          <div className={`hidden md:flex gap-8 ${scrolled ? 'text-gray-900' : 'text-white'}`}>
+          <div className={`hidden md:flex gap-8 ${scrolled ? 'text-white' : 'text-white'}`}>
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -229,3 +225,4 @@ export default function Navigation() {
     </nav>
   )
 }
+
