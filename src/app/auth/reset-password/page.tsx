@@ -1,16 +1,14 @@
-export const dynamic = "force-dynamic"
-
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Lock, ArrowLeft, Sparkles, Eye, EyeOff } from 'lucide-react'
+import { Lock, ArrowLeft, Eye, EyeOff } from 'lucide-react'
 
 export default function ResetPasswordPage() {
   const router = useRouter()
-  const searchParams = useSearchParams()
   const [formData, setFormData] = useState({
+    token: '',
     password: '',
     confirmPassword: '',
   })
@@ -19,14 +17,6 @@ export default function ResetPasswordPage() {
   const [submitted, setSubmitted] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
-
-  const token = searchParams.get('token')
-
-  useEffect(() => {
-    if (!token) {
-      setErrors({ general: 'Invalid or expired reset link.' })
-    }
-  }, [token])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -44,6 +34,9 @@ export default function ResetPasswordPage() {
     e.preventDefault()
     const newErrors: Record<string, string> = {}
 
+    if (!formData.token) {
+      newErrors.token = 'Reset token is required'
+    }
     if (!formData.password || formData.password.length < 8) {
       newErrors.password = 'Password must be at least 8 characters'
     }
@@ -64,7 +57,7 @@ export default function ResetPasswordPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          token,
+          token: formData.token,
           password: formData.password,
         }),
       })
@@ -91,18 +84,14 @@ export default function ResetPasswordPage() {
 
   return (
     <div className="min-h-screen bg-surface-base flex items-center justify-center py-8 px-4 relative overflow-hidden">
-      <div className="fixed inset-0 overflow-hidden pointer-events-none hidden md:block">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-oracle-500/20 rounded-full blur-3xl animate-float-slow"></div>
-      </div>
-
       <div className="w-full max-w-md relative z-10">
         <div className="bg-surface-elevated2/80 backdrop-blur-xl rounded-2xl sm:rounded-3xl border border-white/10 p-6 sm:p-8">
           <div className="text-center mb-6 sm:mb-8">
             <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
-              {submitted ? 'Success!' : 'Create New Password'}
+              {submitted ? 'Success!' : 'Reset Password'}
             </h1>
             <p className="text-gray-400">
-              {submitted ? 'Redirecting to login...' : 'Enter a new password'}
+              {submitted ? 'Redirecting to login...' : 'Enter your reset token and new password'}
             </p>
           </div>
 
@@ -117,6 +106,20 @@ export default function ResetPasswordPage() {
                   {errors.general}
                 </div>
               )}
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Reset Token</label>
+                <input
+                  name="token"
+                  type="text"
+                  value={formData.token}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                  className="w-full px-4 py-2.5 bg-surface-elevated3 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-oracle-500"
+                  placeholder="Paste token from email"
+                />
+                {errors.token && <p className="text-red-400 text-xs mt-1">{errors.token}</p>}
+              </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">New Password</label>
