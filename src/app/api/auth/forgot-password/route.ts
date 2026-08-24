@@ -1,10 +1,6 @@
-import { createServerSupabaseClient } from "@/lib/supabase-server"
+﻿import { createServerSupabaseClient } from "@/lib/supabase-server"
 import { NextResponse } from "next/server"
 
-/**
- * POST /api/auth/forgot-password
- * Send password reset email to user
- */
 export async function POST(request: Request) {
   try {
     const body = await request.json()
