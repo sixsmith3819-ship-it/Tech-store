@@ -1,4 +1,4 @@
-﻿import { createServerSupabaseClient } from "@/lib/supabase-server"
+import { createServerSupabaseClient } from "@/lib/supabase-server"
 import { NextResponse } from "next/server"
 
 /**
@@ -26,16 +26,29 @@ export async function POST(request: Request) {
 
     const supabase = await createServerSupabaseClient()
 
-    // Use Supabase updateUser to reset password
-    const { error } = await supabase.auth.updateUser(
-      { password },
-      { accessToken: token }
-    )
+    // First verify the OTP token
+    const { data: verifyData, error: verifyError } = await supabase.auth.verifyOtp({
+      token_hash: token,
+      type: "recovery",
+    })
 
-    if (error) {
-      console.error("Password reset error:", error)
+    if (verifyError || !verifyData.user) {
+      console.error("OTP verification error:", verifyError)
       return NextResponse.json(
-        { success: false, message: "Failed to reset password. Token may have expired." },
+        { success: false, message: "Invalid or expired reset token." },
+        { status: 400 }
+      )
+    }
+
+    // Now update the password for the verified user
+    const { error: updateError } = await supabase.auth.updateUser({
+      password: password,
+    })
+
+    if (updateError) {
+      console.error("Password update error:", updateError)
+      return NextResponse.json(
+        { success: false, message: "Failed to reset password." },
         { status: 400 }
       )
     }
