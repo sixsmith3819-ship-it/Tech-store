@@ -22,9 +22,63 @@ export default function LoginPage() {
     }
   }, [isAuthenticated, router])
 
+  // Email validation helper
+  const validateEmail = (email: string): string | null => {
+    if (!email.trim()) {
+      return 'Email is required.'
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return 'Please enter a valid email address.'
+    }
+    return null
+  }
+
+  // Password validation helper
+  const validatePassword = (password: string): string | null => {
+    if (!password) {
+      return 'Password is required.'
+    }
+    if (password.length > 12) {
+      return 'Password must not exceed 12 characters.'
+    }
+    return null
+  }
+
+  // Form-level validation
+  const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {}
+
+    const emailError = validateEmail(formData.email)
+    if (emailError) {
+      newErrors.email = emailError
+    }
+
+    const passwordError = validatePassword(formData.password)
+    if (passwordError) {
+      newErrors.password = passwordError
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      return false
+    }
+
+    setErrors({})
+    return true
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
+    
+    // Enforce maxLength for password field
+    if (name === 'password' && value.length > 12) {
+      return
+    }
+
     setFormData(prev => ({ ...prev, [name]: value }))
+    
+    // Clear error when user starts correcting input
     if (errors[name]) {
       setErrors(prev => {
         const newErrors = { ...prev }
@@ -36,14 +90,30 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setErrors({})
+    
+    // Prevent multiple submissions
+    if (isLoading) {
+      return
+    }
+
+    // Validate form before submission
+    if (!validateForm()) {
+      return
+    }
+
     setIsLoading(true)
 
     try {
+      // Trim email before sending
+      const submitData = {
+        email: formData.email.trim(),
+        password: formData.password,
+      }
+
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(submitData),
       })
 
       const data = await response.json()
@@ -69,6 +139,13 @@ export default function LoginPage() {
       })
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  // Handle Enter key submission
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !isLoading) {
+      handleSubmit(e as unknown as React.FormEvent)
     }
   }
 
@@ -121,7 +198,9 @@ export default function LoginPage() {
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
+                  onKeyDown={handleKeyDown}
                   disabled={isLoading}
+                  required
                   className={`w-full pl-10 pr-3 sm:pr-4 py-2.5 sm:py-3 bg-surface-elevated3 border rounded-lg sm:rounded-xl text-white placeholder-gray-500 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-oracle-500 focus:border-transparent transition-all ${
                     errors.email ? 'border-red-500/50' : 'border-white/10'
                   }`}
@@ -146,7 +225,10 @@ export default function LoginPage() {
                   type="password"
                   value={formData.password}
                   onChange={handleChange}
+                  onKeyDown={handleKeyDown}
                   disabled={isLoading}
+                  required
+                  maxLength={12}
                   className={`w-full pl-10 pr-3 sm:pr-4 py-2.5 sm:py-3 bg-surface-elevated3 border rounded-lg sm:rounded-xl text-white placeholder-gray-500 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-oracle-500 focus:border-transparent transition-all ${
                     errors.password ? 'border-red-500/50' : 'border-white/10'
                   }`}
