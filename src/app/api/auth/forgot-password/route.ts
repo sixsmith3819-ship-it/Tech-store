@@ -19,7 +19,6 @@ export async function POST(request: Request) {
 
     const supabase = await createServerSupabaseClient()
 
-    // Use Supabase built-in password reset
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
     const resetUrl = appUrl + "/auth/reset-password"
     
@@ -30,13 +29,13 @@ export async function POST(request: Request) {
     if (error) {
       console.error("Password reset error:", error)
       return NextResponse.json(
-        { success: false, message: "Failed to send reset email. Please try again." },
+        { success: false, message: "Failed to send reset email." },
         { status: 500 }
       )
     }
 
     return NextResponse.json(
-      { success: true, message: "Password reset link sent to your email." },
+      { success: true, message: "Check your email for password reset link." },
       { status: 200 }
     )
   } catch (error) {
