@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Code2, Share2, MessageCircle, Mail, Phone, MapPin } from 'lucide-react'
+import { Code2, Share2, MessageCircle } from 'lucide-react'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -16,7 +16,7 @@ export default function Footer() {
 
       <div className="relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
             {/* Brand */}
             <div className="space-y-4">
               <div className="bg-gradient-to-br from-oracle-400 to-oracle-600 text-white px-3 py-2 rounded-xl font-bold text-lg w-fit shadow-lg">
@@ -59,25 +59,6 @@ export default function Footer() {
                 <li><Link href="/contact" className="text-slate-300 hover:text-oracle-400 transition-colors duration-300">Support</Link></li>
               </ul>
             </div>
-
-            {/* Contact */}
-            <div className="space-y-4">
-              <h3 className="font-bold text-lg text-white">Contact</h3>
-              <div className="space-y-3">
-                <a href="mailto:support@oracletechstore.com" className="flex items-center gap-3 text-slate-300 hover:text-oracle-400 transition-colors duration-300 group">
-                  <Mail size={18} className="group-hover:scale-110 transition-transform" />
-                  <span className="text-sm">support@ots.com</span>
-                </a>
-                <a href="tel:+15559999999" className="flex items-center gap-3 text-slate-300 hover:text-oracle-400 transition-colors duration-300 group">
-                  <Phone size={18} className="group-hover:scale-110 transition-transform" />
-                  <span className="text-sm">+1 (555) 999-9999</span>
-                </a>
-                <div className="flex items-start gap-3 text-slate-300">
-                  <MapPin size={18} className="mt-1 flex-shrink-0 text-oracle-400" />
-                  <span className="text-sm">123 Tech Avenue, Silicon Valley, CA</span>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Divider */}
@@ -109,10 +90,10 @@ export default function Footer() {
             {/* Bottom bar */}
             <div className="border-t border-oracle-400/10 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
               <p className="text-slate-300 text-sm">
-                © {currentYear} Oracle Tech Store. All rights reserved.
+                � {currentYear} Oracle Tech Store. All rights reserved.
               </p>
               <p className="text-slate-300 text-sm flex items-center gap-2">
-                Crafted with <span className="text-red-500 animate-pulse-glow">❤️</span> for tech enthusiasts
+                Crafted with <span className="text-red-500 animate-pulse-glow">??</span> for tech enthusiasts
               </p>
             </div>
           </div>
