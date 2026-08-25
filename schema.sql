@@ -108,6 +108,26 @@ CREATE INDEX idx_order_items_order_id ON order_items(order_id);
 CREATE INDEX idx_order_items_product_id ON order_items(product_id);
 
 -- ============================================================================
+-- 7. SERVICES CATALOG (Public browsable services)
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS services (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  description TEXT NOT NULL,
+  detailed_description TEXT,
+  price DECIMAL(10, 2) NOT NULL CHECK (price > 0),
+  service_type TEXT NOT NULL CHECK (service_type IN ('cctv_installation', 'starlink_installation', 'networking_installation', 'network_cabinet', 'wifi_setup', 'maintenance', 'other')),
+  image_url TEXT,
+  status TEXT NOT NULL CHECK (status IN ('active', 'inactive', 'discontinued')) DEFAULT 'active',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_services_service_type ON services(service_type);
+CREATE INDEX idx_services_status ON services(status);
+
+-- ============================================================================
 -- 7. SERVICE REQUESTS (Objective 4: Service Request System)
 -- ============================================================================
 
@@ -168,6 +188,7 @@ ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE product_images ENABLE ROW LEVEL SECURITY;
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
+ALTER TABLE services ENABLE ROW LEVEL SECURITY;
 ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE order_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE service_requests ENABLE ROW LEVEL SECURITY;
@@ -261,6 +282,28 @@ CREATE POLICY "Service role can update categories"
 
 CREATE POLICY "Service role can delete categories"
   ON categories FOR DELETE
+  USING (auth.role() = 'service_role');
+
+-- ============================================================================
+-- SERVICES - RLS Policies
+-- ============================================================================
+
+-- All users can read active services
+CREATE POLICY "All users can read active services"
+  ON services FOR SELECT
+  USING (status = 'active');
+
+-- Only service role can manage services
+CREATE POLICY "Service role can insert services"
+  ON services FOR INSERT
+  WITH CHECK (auth.role() = 'service_role');
+
+CREATE POLICY "Service role can update services"
+  ON services FOR UPDATE
+  USING (auth.role() = 'service_role');
+
+CREATE POLICY "Service role can delete services"
+  ON services FOR DELETE
   USING (auth.role() = 'service_role');
 
 -- ============================================================================
@@ -420,6 +463,9 @@ CREATE TRIGGER update_categories_updated_at BEFORE UPDATE ON categories
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE TRIGGER update_products_updated_at BEFORE UPDATE ON products
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_services_updated_at BEFORE UPDATE ON services
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE TRIGGER update_orders_updated_at BEFORE UPDATE ON orders

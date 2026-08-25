@@ -102,11 +102,11 @@ export default function ServicesPage() {
             <p className="text-gray-400 text-lg">View and manage your service requests</p>
           </div>
           <Link
-            href="/services"
+            href="/dashboard/services/new"
             className="px-6 py-3 bg-gradient-to-r from-oracle-500 to-oracle-600 hover:from-oracle-600 hover:to-oracle-700 text-white font-bold rounded-xl transition-all duration-300 shadow-soft hover:shadow-glow transform hover:scale-105 flex items-center gap-2 whitespace-nowrap"
           >
             <Plus className="w-5 h-5" />
-            New Service
+            New Service Request
           </Link>
         </div>
 
@@ -126,7 +126,7 @@ export default function ServicesPage() {
             <Wrench className="w-16 h-16 text-gray-600 mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-white mb-2">No Service Requests</h2>
             <p className="text-gray-400 mb-6">You haven't requested any services yet. Need help with something?</p>
-            <Link href="/services/new" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-oracle-500 to-oracle-600 text-white font-bold rounded-xl transition-all duration-300 shadow-soft hover:shadow-glow">
+            <Link href="/dashboard/services/new" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-oracle-500 to-oracle-600 text-white font-bold rounded-xl transition-all duration-300 shadow-soft hover:shadow-glow">
               <Plus className="w-5 h-5" />
               Request a Service
             </Link>

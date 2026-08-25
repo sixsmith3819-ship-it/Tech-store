@@ -53,9 +53,9 @@ export default function Footer() {
             <div className='space-y-4'>
               <h3 className='font-bold text-lg text-white'>Services</h3>
               <ul className='space-y-3'>
-                <li><Link href='/services' className='text-slate-300 hover:text-oracle-400 transition-colors duration-300'>All Services</Link></li>
-                <li><Link href='/services/new' className='text-slate-300 hover:text-oracle-400 transition-colors duration-300'>Request Service</Link></li>
-                <li><Link href='/dashboard/services' className='text-slate-300 hover:text-oracle-400 transition-colors duration-300'>My Services</Link></li>
+                <li><Link href='/services' className='text-slate-300 hover:text-oracle-400 transition-colors duration-300'>Browse Services</Link></li>
+                <li><Link href='/dashboard/services/new' className='text-slate-300 hover:text-oracle-400 transition-colors duration-300'>Request Service</Link></li>
+                <li><Link href='/dashboard/services' className='text-slate-300 hover:text-oracle-400 transition-colors duration-300'>My Requests</Link></li>
                 <li><Link href='/contact' className='text-slate-300 hover:text-oracle-400 transition-colors duration-300'>Support</Link></li>
               </ul>
             </div>
